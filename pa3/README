@@ -1,0 +1,24 @@
+README for pa3
+
+Jake Armendariz
+CSE101
+jsarmend@ucsc.edu
+1650932
+
+
+List.C
+    Doubly linked list with a cursor. Can insert/delete elements on the front, back, before, after cursor. 
+    long value in each element
+
+BigInteger.C
+   Manipulates extremely large numbers (Up to thousands of digits). It using the List ADT with longs in each element to Manipulate
+   each node indivudally and eventaully affect the total outcome of a huge number.
+
+
+Arithmetic.C
+    Uses BigInteger.c to take in an input file with 4 numbers. 1: number of digits. 2: number with that number of digits
+    3: number of digits. 4: number with that number of digits
+    preforms 𝐴, 𝐵, 𝐴 + 𝐵, 𝐴 − 𝐵, 𝐴 − 𝐴, 3𝐴 − 2𝐵, 𝐴𝐵, 𝐴^2, 𝐵^2, 9𝐴^4 + 16𝐵^5
+
+Makefile
+    Compiles and runs the project under ./Arithmetic input_file ouput_file

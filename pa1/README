@@ -1,0 +1,8 @@
+PA1
+Jake Armendariz
+jsarmend
+October 11, 2019
+1650932
+
+Contains List.h and List.c an ADT that works as a doubly linked list with a cursor that can insert nodes with a value
+Lex.c intakes a series of lines and sorts them alphabetically using the List ADT

@@ -1,0 +1,28 @@
+README
+
+Jake Armendariz
+CSE101
+jsarmend@ucsc.edu
+1650932
+
+NOTE: (Please)
+So, I got 52/52 on Matrix, my Sparse.c works perfectly everytime I tested it on my machine. 
+I get 27/27 on list test. However, I am having issues with memory/valgrind, I know this is wrong.
+But for some reason, I am getting 0/10 on Sparse.c on the pa2.sh test. I am not sure why, but I swear
+Matrix.C and Sparse.c work fine, please test it. Thank you very much
+-Jake
+
+
+List.C
+    Doubly linked list with a cursor. Can insert/delete elements on the front, back, before, after cursor. 
+    void * value in each element
+
+Matrix.C
+    Matrix.c works as a nxn 2D matrix, but it is built with n List objects. This allows it to be extra efficient
+    And work for smaller data sets. It can be printed, multipled, subtracted, added as many other matricies.
+
+
+Sparce.C
+    Intakes input and applies a demonstration of Matrix.c. First it intakes n, for the size of two arrays. Then 
+    it will intake the number of elements going into Matrix A, then the number of elements going into Matrix B.
+    Applies basic functions demonstrating capability of Matrix ADT. Fast runtime, would work well with a hashtable.
