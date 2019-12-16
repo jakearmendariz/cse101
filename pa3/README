@@ -5,7 +5,6 @@ CSE101
 jsarmend@ucsc.edu
 1650932
 
-
 List.C
     Doubly linked list with a cursor. Can insert/delete elements on the front, back, before, after cursor. 
     long value in each element
@@ -22,3 +21,6 @@ Arithmetic.C
 
 Makefile
     Compiles and runs the project under ./Arithmetic input_file ouput_file
+
+Test files
+    I left my 6 input files in the directory because it does take many testst to prove this works properly
