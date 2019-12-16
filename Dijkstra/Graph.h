@@ -33,5 +33,10 @@ void BFS(Graph G, int s);
 /*** Other operations ***/
 void printGraph(FILE* out, Graph G);
 void printDistance(Graph G);
+void weightedEdge(Graph G, int u, int v, int weight);
+void weightedArc(Graph G, int u, int v, int weight);
+void relax(Graph G, int u, int v);
+void Dijkstra(Graph G, int s);
+void clearhelpers(Graph G);
 
 #endif // if graph was including

@@ -1,0 +1,23 @@
+README
+Jake Armendariz
+jsarmend
+1650932
+PA4
+BFS and path finder within a graph
+
+Overview
+This folder can tak
+
+FindPath.c
+Takes in two files: input, output
+In the input it will create a graph then print out the distance and paths of multiple routes to output file
+
+Graph.c
+Contains the Graph ADT
+Allows users to add directed and undirected components
+Use BFS to find distance from any vertex
+Returns a path using each nodes parent
+
+List.c
+Doubly linked list, used for the adjacency list
+Adds inputs in order

@@ -106,16 +106,16 @@ int length(List L)
     return L->length;
 }
 //Position of cursor
-int index(List L)
+int indexIt(List L)
 {
     if (L == NULL)
     {
-        fprintf(stderr, "Error: List is undefinded in index() function\n");
+        fprintf(stderr, "Error: List is undefinded in indexIt() function\n");
         return -1;
     }
     if (L->cursor_pos == -1)
     {
-        //fprintf(stderr, "Error: cursor_pos is -1 in index() function\n");
+        //fprintf(stderr, "Error: cursor_pos is -1 in indexIt() function\n");
         return -1;
     }
     return L->cursor_pos;
@@ -156,7 +156,7 @@ int back(List L)
         return 0;
     }
 }
-// Returns cursor element of L. Pre: length()>0, index()>=0
+// Returns cursor element of L. Pre: length()>0, indexIt()>=0
 long get(List L)
 {
     if (L == NULL)
@@ -627,7 +627,7 @@ long valueAt(List L, int pos)
 }
 
 // Delete cursor element, making cursor undefined.
-// Pre: length()>0, index()>=0
+// Pre: length()>0, indexIt()>=0
 // Other operations -----------------------------------------------------------
 void delete (List L)
 {
@@ -703,7 +703,7 @@ List copyList(List L)
     }
     List a = newList();
     moveFront(L);
-    while (index(L) != -1)
+    while (indexIt(L) != -1)
     {
         append(a, get(L));
         moveNext(L);
@@ -718,7 +718,7 @@ void trimFront(List L)
         return;
     }
     moveFront(L);
-    while (index(L) != -1)
+    while (indexIt(L) != -1)
     {
         if(length(L) <= 1){
             break;

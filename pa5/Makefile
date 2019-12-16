@@ -1,11 +1,11 @@
 #------------------------------------------------------------------------------
 #  Makefile for CSE 101 Programming Assignment 4
 #
-#  make                     makes FindPath
+#  make                     makes FindComponents
 #  make GraphClient         makes GraphClient
 #  make clean               removes binaries
-#  make checkFind           tests FindPath for memory leaks on in3
-#  make checkClient         tests GraphClient for memory leaks
+#  make checkFind           tests FindComponents for memory leaks on in3
+#  make checkClient         tests GraphClient for memory leak
 #------------------------------------------------------------------------------
 
 BASE_SOURCES   = Graph.c List.c
@@ -16,8 +16,8 @@ LINK           = gcc -o
 REMOVE         = rm -f
 MEMCHECK       = valgrind --leak-check=full
 
-FindPath : FindPath.o $(BASE_OBJECTS)
-	$(LINK) FindPath FindPath.o $(BASE_OBJECTS)
+FindComponents : FindComponents.o $(BASE_OBJECTS)
+	$(LINK) FindComponents FindComponents.o $(BASE_OBJECTS)
 
 GraphClient : GraphClient.o $(BASE_OBJECTS)
 	$(LINK) GraphClient GraphClient.o $(BASE_OBJECTS)
@@ -25,8 +25,8 @@ GraphClient : GraphClient.o $(BASE_OBJECTS)
 ModelGraphTest : ModelGraphTest.o $(BASE_OBJECTS)
 	$(LINK) ModelGraphTest ModelGraphTest.o $(BASE_OBJECTS)
 
-FindPath.o : FindPath.c $(HEADERS)
-	$(COMPILE) FindPath.c
+FindComponents.o : FindComponents.c $(HEADERS)
+	$(COMPILE) FindComponents.c
 
 GraphClient.o : GraphClient.c $(HEADERS)
 	$(COMPILE) GraphClient.c
@@ -38,10 +38,10 @@ $(BASE_OBJECTS) : $(BASE_SOURCES) $(HEADERS)
 	$(COMPILE) $(BASE_SOURCES)
 
 clean :
-	$(REMOVE) FindPath GraphClient FindPath.o GraphClient.o ModelGraphTest.o $(BASE_OBJECTS)
+	$(REMOVE) FindComponents GraphClient FindComponents.o GraphClient.o ModelGraphTest.o $(BASE_OBJECTS)
 
-checkFind : FindPath
-	$(MEMCHECK) FindPath in3 junk3
+checkFind : FindComponents
+	$(MEMCHECK) FindComponents in3 junk3
 
 checkClient : GraphClient
 	$(MEMCHECK) GraphClient

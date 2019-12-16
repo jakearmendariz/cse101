@@ -232,7 +232,7 @@ uint8_t runTest(BigInteger *pA, BigInteger *pB, BigInteger *pC, BigInteger *pD, 
     }
     case Subtract_test:
     {
-         printf("#7\n");
+         //printf("#7\n");
         /*
              * subtracting numbers fall into one of 4 cases, denote pos = positive number, neg = negative number
              *
@@ -296,7 +296,7 @@ uint8_t runTest(BigInteger *pA, BigInteger *pB, BigInteger *pC, BigInteger *pD, 
     }
     case Diff_test:
     {
-        printf("#7\n");
+        //printf("#7\n");
         *pA = stringToBigInteger("-111122223333");
         *pB = stringToBigInteger("-111122223333");
 

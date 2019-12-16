@@ -82,7 +82,7 @@ void insertInOrder(List L, Entry e)
                 break;
             }
         }
-        if (index(L) == -1)
+        if (indexIt(L) == -1)
         {
             append(L, e);
         }
@@ -748,7 +748,7 @@ void printMatrix(FILE *out, Matrix M)
                 fprintf(out, "%d: ", k);
             }
             moveFront(L);
-            // while(index(L) < length(L)-1){
+            // while(indexIt(L) < length(L)-1){
             for (int j = 0; j < length(L); j++)
             {
                 if (L->cursor_pos == -1)

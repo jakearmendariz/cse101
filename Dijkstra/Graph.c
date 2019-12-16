@@ -85,12 +85,12 @@ void getPath(List L, Graph G, int u){
         return;
     }
     if(G->source == u){
-        append(L, u);
+        append(L, u, 1);
         return;
     }
     
     if(G->parent[u] == NIL){
-        append(L, -1);
+        append(L, -1, 1);
         return;
     }
     
@@ -98,7 +98,8 @@ void getPath(List L, Graph G, int u){
     int counter = 0;
     List K = newList();
     while(node != G->source){
-        prepend(K, node);
+        prepend(K, node, 1);
+        //printf("Node added %d\n", node);
         node = G->parent[node];
         counter++;
         if(counter > (G->size*2)){
@@ -107,11 +108,11 @@ void getPath(List L, Graph G, int u){
             return;
         }
     }
-    prepend(K, node);
+    prepend(K, node, 1);
 
     while(length(K) > 0){
         moveFront(K);
-        append(L, get(K));
+        append(L, get(K), 1);
         deleteFront(K);
     }
     freeList(&K);
@@ -142,14 +143,28 @@ void clearhelpers(Graph G){
     }
 }
 void addEdge(Graph G, int u, int v){
-    insertInOrder(G->adj[u], v);
-    insertInOrder(G->adj[v], u);
+    insertInOrder(G->adj[u], v, 1);
+    insertInOrder(G->adj[v], u, 1);
     G->size ++;
 }
+
+void weightedEdge(Graph G, int u, int v, int weight){
+    insertInOrder(G->adj[u], v, weight);
+    insertInOrder(G->adj[v], u, weight);
+    G->size ++;
+}
+
 void addArc(Graph G, int u, int v){
-    append(G->adj[u], v);
+    append(G->adj[u], v, 1);
     G->size++;
 }
+
+
+void weightedArc(Graph G, int u, int v, int weight){
+    append(G->adj[u], v, weight);
+    G->size++;
+}
+
 
 void printDistance(Graph G){
     for(int i = 1; i < G->order+1; i++){
@@ -171,7 +186,7 @@ void BFS(Graph G, int s)
     List que = newList();
     moveFront(G->adj[s]);
     distance = 1;
-    append(que, s);
+    append(que, s, 1);
     while(length(que) > 0){
         moveFront(que);
         int vert = get(que);
@@ -182,12 +197,12 @@ void BFS(Graph G, int s)
                 G->color[indx] = 1;//Set color to gray
                 G->dist[indx] = G->dist[vert]+1;
                 G->parent[indx] = vert;
-                append(que, indx);
+                append(que, indx, 1);
             }
             moveNext(G->adj[vert]);
         }
         deleteFront(que);
-        distance++;//Increase distance as checking other rows
+        distance+= getWeight(que) ;//Increase distance as checking other rows
         G->color[vert] = 2;//Sets color to black, all neighboring nodes were reached...
     }
     
@@ -198,12 +213,111 @@ void printGraph(FILE* out, Graph G){
         fprintf(out, "%d: ",i );
         moveFront(G->adj[i]);
         while(indexIt(G->adj[i]) !=  -1){
-            fprintf(out, "%d", get(G->adj[i]));
+            fprintf(out, "(%d, %d)", get(G->adj[i]), getWeight(G->adj[i]));
             moveNext(G->adj[i]);
             if(indexIt(G->adj[i]) !=  -1){
                 fprintf(out, " ");
             }
         }
         fprintf(out, "\n");
+    }
+}
+//Extracts minimum value in the que based off of its distance value
+int extractMin(Graph G, List Q){
+    if(length(Q) == 0){
+        //fprintf(stderr, "Error in extract min, Que is emptyn\n");
+        return 0;
+    }
+    moveFront(Q);
+    int place = 0;
+    int minDist = 1000;
+    while(get(Q) != -1){
+       if(G->dist[get(Q)] != -2 && G->dist[get(Q)] < minDist){
+           place = get(Q);
+           minDist = G->dist[get(Q)];
+        // printf("At node %d the distance is %d\n", get(Q),  minDist);
+       }
+       moveNext(Q);
+    }
+    if(place == 0){//If every value is infinite chose first on que
+        // printf("Didn't find a node\n");
+         moveFront(Q);
+         place = get(Q);
+         deleteFront(Q);
+         return -2;
+    }
+    moveFront(Q);
+    while(get(Q) != -1){
+        if(get(Q) == place){
+            delete(Q);
+            return place;
+        }
+        moveNext(Q);
+    }
+    fprintf(stderr, "Error in extract min, reached end of function\n");
+    return -1;
+
+}
+
+/**
+* Dijkstra's algorithm:
+* Loops through the connected nodes finding distance to each node
+* If a better route is found, relax changes distance and parent node
+*/
+void Dijkstra(Graph G, int s){
+    clearhelpers(G);
+    G->source = s;
+    G->dist[s] = 0;
+    G->parent[s] = NIL;
+    List que = newList();
+    List touched = newList();
+    if(length(G->adj[s]) == 0){
+        return;
+    }
+    for(int i = 1; i <= G->order; i ++){
+        //printf("Distance of vertex %d is : %d\n", i, G->dist[i]);
+        //G->color[]
+        append(que, i, 1);
+    }
+    while(length(que) != 0){
+        int a = extractMin(G, que);
+        if(a == -2){
+           // printf("Disconnected Graph, end verticie found\n");
+            return;
+        }
+        if(G->dist[a] == -2){
+            //printf("Disconnected Graph, vertex is infinitly far\n");
+            return;
+        }
+        if(a == 0){
+            return;
+        }
+        //printf("Extracting %d, with a current distance of %d\n", a, G->dist[a]);
+        append(touched, a, 1);
+        List L = G->adj[a];
+        moveFront(L);
+        while(get(L) != -1 && get(L) != 0){
+            relax(G, get(L), a);
+            moveNext(L);
+        }
+    }
+}
+//If the weighy of u-v + dist[v]. 
+//Then change the parents and set the distance
+void relax(Graph G, int u, int v){
+    moveFront(G->adj[v]);
+    while(get(G->adj[v]) != u){
+        moveNext(G->adj[v]);
+    }
+    //printf("dist to %d: %d\tdist to %d: %d\tdist from %d to %d: %d\n",u, G->dist[u], v, G->dist[v],u,v, getWeight(G->adj[v]));
+    if(G->dist[u] == -2){//If u is undiscovered its distance will be -2 or INF
+       // printf("Relaxed node %d of weight %d to %d\n", u, G->dist[u], (G->dist[v] + getWeight(G->adj[v])));
+        G->dist[u] = G->dist[v] + getWeight(G->adj[v]);
+        G->parent[u] = v;//
+    }
+    else if(G->dist[u] > G->dist[v] + getWeight(G->adj[v])){
+       // printf("Relaxed node %d of weight %d to %d\n", u, G->dist[u], (G->dist[v] + getWeight(G->adj[v])));
+        G->dist[u] = G->dist[v] + getWeight(G->adj[v]);
+        G->parent[u] = v;//
     }
 }

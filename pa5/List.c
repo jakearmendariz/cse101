@@ -2,7 +2,8 @@
  * List.c
  * 
  * Jake Armendariz
- * 
+ * jsarmend
+ * pa5
  *  Description:
  * Contains a doubly linked list manipulation routines
  * Can create new nodes, insert nodes to the list at the end of based off of values
@@ -92,16 +93,16 @@ int length(List L)
     return L->length;
 }
 //Position of cursor
-int index(List L)
+int indexIt(List L)
 {
     if (L == NULL)
     {
-        fprintf(stderr, "Error: List is undefinded in index() function\n");
+        fprintf(stderr, "Error: List is undefinded in indexIt() function\n");
         return -1;
     }
     if (L->cursor_pos == -1)
     {
-        //fprintf(stderr, "Error: cursor_pos is -1 in index() function\n");
+        //fprintf(stderr, "Error: cursor_pos is -1 in indexIt() function\n");
         return -1;
     }
     return L->cursor_pos;
@@ -142,7 +143,7 @@ int back(List L)
         return 0;
     }
 }
-// Returns cursor element of L. Pre: length()>0, index()>=0
+// Returns cursor element of L. Pre: length()>0, indexIt()>=0
 int get(List L)
 {
     if (L == NULL)
@@ -153,7 +154,7 @@ int get(List L)
     if (L->length == 0)
     {
         //fprintf(stderr, "Error: List is empty in get() function\n");
-        return 0;
+        return -1;
     }
     if (L->cursor_pos == -1)
     {
@@ -171,6 +172,14 @@ int get(List L)
         return -1;
     }
     return L->cursor->value;
+}
+
+void set(List L, int n){
+    if(L->cursor_pos == -1){
+        printf("Error in set function, cursor is NULL\n");
+        return;
+    }
+    L->cursor->value = n;
 }
 
 /**
@@ -321,7 +330,10 @@ void insertInOrder(List L, int data){
         append(L, data);
         return;
     }
-    insertBefore(L, data);
+    if(get(L) != data){//No repeated edges
+        insertBefore(L, data);
+    }
+    
 }
 
 
@@ -372,7 +384,7 @@ void append(List L, int data)
 {
     if (L == NULL)
     {
-        fprintf(stderr, "Error: List is Null in prepend parameter");
+        fprintf(stderr, "Error: List is Null in append parameter");
         return;
     }
     else if (L->length == 0)
@@ -616,7 +628,7 @@ int valueAt(List L, int pos)
 }
 
 // Delete cursor element, making cursor undefined.
-// Pre: length()>0, index()>=0
+// Pre: length()>0, indexIt()>=0
 // Other operations -----------------------------------------------------------
 void delete (List L)
 {

@@ -34,10 +34,11 @@ List newList()
  * 
  * creates a Node and allocates memory for it
  */
-Node *newNode(int val)
+Node *newNode(int val, int dist)
 {
     Node *a = malloc(sizeof(Node));
     a->value = val;
+    a->data = dist;
     a->prev = NULL;
     a->next = NULL;
     return a;
@@ -92,16 +93,16 @@ int length(List L)
     return L->length;
 }
 //Position of cursor
-int index(List L)
+int indexIt(List L)
 {
     if (L == NULL)
     {
-        fprintf(stderr, "Error: List is undefinded in index() function\n");
+        fprintf(stderr, "Error: List is undefinded in indexIt() function\n");
         return -1;
     }
     if (L->cursor_pos == -1)
     {
-        //fprintf(stderr, "Error: cursor_pos is -1 in index() function\n");
+        //fprintf(stderr, "Error: cursor_pos is -1 in indexIt() function\n");
         return -1;
     }
     return L->cursor_pos;
@@ -142,7 +143,7 @@ int back(List L)
         return 0;
     }
 }
-// Returns cursor element of L. Pre: length()>0, index()>=0
+// Returns cursor element of L. Pre: length()>0, indexIt()>=0
 int get(List L)
 {
     if (L == NULL)
@@ -171,6 +172,37 @@ int get(List L)
         return -1;
     }
     return L->cursor->value;
+}
+
+// Returns cursor element of L. Pre: length()>0, indexIt()>=0
+int getWeight(List L)
+{
+    if (L == NULL)
+    {
+        fprintf(stderr, "Error: List is undefinded in get() function\n");
+        return 0;
+    }
+    if (L->length == 0)
+    {
+        //fprintf(stderr, "Error: List is empty in get() function\n");
+        return 0;
+    }
+    if (L->cursor_pos == -1)
+    {
+        //fprintf(stderr, "Error: cursor is undefinded");
+        return -1;
+    }
+    else if (L->length == 0)
+    {
+        fprintf(stderr, "Error: list is empty");
+        return -1;
+    }
+    if (L->cursor == NULL)
+    {
+        fprintf(stderr, "Error: cursor is undefinded");
+        return -1;
+    }
+    return L->cursor->data;
 }
 
 /**
@@ -307,9 +339,9 @@ void moveNext(List L)
 
 
 
-void insertInOrder(List L, int data){
+void insertInOrder(List L, int val, int data){
     if(length(L) == 0){
-        append(L, data);
+        append(L, val, data);
         return;
     }
   //  Node a = newNode(data);
@@ -318,10 +350,10 @@ void insertInOrder(List L, int data){
         moveNext(L);
     }
     if(get(L) == -1){
-        append(L, data);
+        append(L, val, data);
         return;
     }
-    insertBefore(L, data);
+    insertBefore(L, val, data);
 }
 
 
@@ -330,7 +362,7 @@ void insertInOrder(List L, int data){
  * 
  * adds a new node: data into the list at the front position
  */
-void prepend(List L, int data)
+void prepend(List L, int val, int data)
 {
     //printf("In prepend\n");
     if (L == NULL)
@@ -340,19 +372,19 @@ void prepend(List L, int data)
     }
     else if (L->length == 0)
     { //First element in list
-        L->front = newNode(data);
+        L->front = newNode(val, data);
         L->back = L->front;
     }
     else if (L->length == 1)
     {
-        L->front = newNode(data);
+        L->front = newNode(val, data);
         L->front->next = L->back;
         L->back->prev = L->front;
     }
     else
     {
         Node *temp = L->front;
-        L->front = newNode(data);
+        L->front = newNode(val, data);
         L->front->next = temp;
         temp->prev = L->front;
     }
@@ -368,7 +400,7 @@ void prepend(List L, int data)
  * 
  * adds a new node: data into the list at the back position
  */
-void append(List L, int data)
+void append(List L, int val, int data)
 {
     if (L == NULL)
     {
@@ -378,19 +410,19 @@ void append(List L, int data)
     else if (L->length == 0)
     { //First element in list
         //printf("attempting to append\n");
-        L->front = newNode(data);
+        L->front = newNode(val, data);
         L->back = L->front;
     }
     else if (L->length == 1)
     {
-        L->back = newNode(data);
+        L->back = newNode(val, data);
         L->front->next = L->back;
         L->back->prev = L->front;
     }
     else
     {
         Node *temp = L->back;
-        Node *a = newNode(data);
+        Node *a = newNode(val, data);
         temp->next = a;
         a->prev = temp;
         L->back = a;
@@ -404,7 +436,7 @@ void append(List L, int data)
  * Inserts a node before the cursor
  * If Null, empty or undefined ursor nothing happens
  */
-void insertBefore(List L, int data)
+void insertBefore(List L,int val, int data)
 {
     if (L == NULL)
     {
@@ -422,7 +454,7 @@ void insertBefore(List L, int data)
         return;
     }
     //If we can insert, create Node
-    Node *insert = newNode(data);
+    Node *insert = newNode(val, data);
     if (L->cursor_pos == 0 && L->length == 1)
     {
         Node *back = L->back;
@@ -456,7 +488,7 @@ void insertBefore(List L, int data)
  * Inserts a node after the cursor
  * If Null, empty or undefined ursor nothing happens
  */
-void insertAfter(List L, int data)
+void insertAfter(List L, int val, int data)
 {
     if (L == NULL)
     {
@@ -468,7 +500,7 @@ void insertAfter(List L, int data)
         // printf("Cursor is NULL in insertAfter function\n");
         return;
     }
-    Node *insert = newNode(data);
+    Node *insert = newNode(val, data);
     if (L->length <= 0)
     {
         fprintf(stderr, "Error: List is empty");
@@ -616,7 +648,7 @@ int valueAt(List L, int pos)
 }
 
 // Delete cursor element, making cursor undefined.
-// Pre: length()>0, index()>=0
+// Pre: length()>0, indexIt()>=0
 // Other operations -----------------------------------------------------------
 void delete (List L)
 {
@@ -697,12 +729,12 @@ List copyList(List L)
         return a;
     }
     Node *temp = L->front;
-    a->front = newNode(temp->value);
+    a->front = newNode(temp->value, temp->data);
     Node *aa = a->front;
     temp = temp->next;
     for (int i = 1; i < L->length; i++)
     {
-        aa->next = newNode(temp->value);
+        aa->next = newNode(temp->value, temp->data);
         temp = temp->next;
         if (i < L->length - 1)
         {
@@ -728,13 +760,13 @@ List concatList(List A, List B)
     Node *current = A->front;
     for (int i = 0; i < A->length; i++)
     {
-        append(C, current->value);
+        append(C, current->value, current->data);
         current = current->next;
     }
     current = B->front;
     for (int i = 0; i < B->length; i++)
     {
-        append(C, current->value);
+        append(C, current->value, current->data);
         current = current->next;
     }
     return C;

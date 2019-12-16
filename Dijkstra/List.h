@@ -12,6 +12,7 @@ typedef struct Node
 {
     /* string data in each block */
     int value;
+    int data;
     struct Node *prev; /* ptr to left child */
     struct Node *next; /* ptr to right child */
 } Node;
@@ -36,10 +37,11 @@ void freeList(List *pL); // Frees all heap memory associated with *pL, and sets
                          // *pL to NULL.
 // Access functions -----------------------------------------------------------
 int length(List L);         // Returns the number of elements in L.
-int index(List L);        // Returns index of cursor element if defined, -1 otherwise.
+int indexIt(List L);        // Returns index of cursor element if defined, -1 otherwise.
 int front(List L);          // Returns front element of L. Pre: length()>0
 int back(List L);           // Returns back element of L. Pre: length()>0
-int get(List L);            // Returns cursor element of L. Pre: length()>0, index()>=0
+int get(List L);            // Returns cursor element of L. Pre: length()>0, indexIt()>=0
+int getWeight(List L);
 int equals(List A, List B); // Returns true (1) iff Lists A and B are in same
                             // state, and returns false (0) otherwise.
 // Manipulation procedures ----------------------------------------------------
@@ -56,19 +58,19 @@ void moveNext(List L);               // If cursor is defined and not at back, mo
                                      // step toward the back of L; if cursor is defined and at
                                      // back, cursor becomes undefined; if cursor is undefined
                                      // do nothing
-void prepend(List L, int data);      // Insert new element into L. If L is non-empty,
+void prepend(List L, int val, int data);      // Insert new element into L. If L is non-empty,
                                      // insertion takes place before front element.
-void append(List L, int data);       // Insert new element into L. If L is non-empty,
+void append(List L, int val, int data);       // Insert new element into L. If L is non-empty,
                                      // insertion takes place after back element.
-void insertInOrder(List L, int data);
-void insertBefore(List L, int data); // Insert new element before cursor.
-                                     // Pre: length()>0, index()>=0
-void insertAfter(List L, int data);  // Insert new element after cursor.
-                                     // Pre: length()>0, index()>=0
+void insertInOrder(List L, int val, int data);
+void insertBefore(List L, int val, int data); // Insert new element before cursor.
+                                     // Pre: length()>0, indexIt()>=0
+void insertAfter(List L, int val, int data);  // Insert new element after cursor.
+                                     // Pre: length()>0, indexIt()>=0
 void deleteFront(List L);            // Delete the front element. Pre: length()>0
 void deleteBack(List L);             // Delete the back element. Pre: length()>0
 void delete (List L);                // Delete cursor element, making cursor undefined.
-                                     // Pre: length()>0, index()>=0
+                                     // Pre: length()>0, indexIt()>=0
 // Other operations -----------------------------------------------------------
 void printList(FILE *out, List L); // Prints to the file pointed to by out, a
                                    // string representation of L consisting

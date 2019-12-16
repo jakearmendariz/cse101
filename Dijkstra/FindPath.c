@@ -36,12 +36,14 @@ int main(int argc, char* argv[]){
     List L = newList();
     int one = 1;
     int two = 1;
+    int three = 1;
     while(one != 0 || two != 0)
     {
         fscanf(in, " %d", &one);
         fscanf(in, " %d", &two);
-        addEdge(G, one, two);
-        //printf("one: %d  two: %d\n", one, two);
+        fscanf(in, " %d", &three);
+        weightedArc(G, one, two, three);
+        //printf("one: %d  two: %d weight: %d\n", one, two, three);
     }
     printGraph(out, G);
     one = 1;
@@ -51,7 +53,8 @@ int main(int argc, char* argv[]){
     while(one != 0 || two != 0)
     {
         
-        BFS(G, one);
+        //BFS(G, one);
+        Dijkstra(G, one);
         getPath(L,G, two);
         if(length(L) == 0 || getDist(G, two) < 0){
             fprintf(out, "\nThe distance from %d to %d is infinity\n",one, two);
@@ -67,26 +70,6 @@ int main(int argc, char* argv[]){
         fscanf(in, " %d", &two);
     }
     freeGraph(&G);
-/*
-1 4
-1 5
-4 5
-2 3
-2 6
-3 7
-6 7
-0 0
-2 7
-3 6
-1 7
-0 0
-
-
-Two Questions:
-Why do we extend every project?
-
-Do labs have to be this limited in creativity?
-*/
-
+   
     return 0;
 }

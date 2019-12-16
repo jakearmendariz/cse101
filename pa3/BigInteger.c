@@ -38,6 +38,7 @@ int powerTo(int n, int a){
 // Returns a reference to a new BigInteger object in the zero state.
 BigInteger newBigInteger()
 {
+
     BigInteger a = malloc(sizeof(BigIntegerObj));
     a->values = newList();
     a->power = 9;
@@ -57,6 +58,10 @@ void setPower(BigInteger N, int power)
 // Frees heap memory associated with *pN, sets *pN to NULL.
 void freeBigInteger(BigInteger *pN)
 {
+    if(pN == NULL || *pN == NULL){
+        fprintf(stderr, "Error in freeBigInteger, null\n");
+        return;
+    }
     List L = (*pN)->values;
     freeList(&L);
     free(*pN);
@@ -122,7 +127,7 @@ int compare(BigInteger A, BigInteger B)
     {
         //return 0;
     }
-    while (index(L1) != -1)
+    while (indexIt(L1) != -1)
     {
         if (get(L1) > get(L2))
         {
@@ -163,7 +168,7 @@ int equals(BigInteger A, BigInteger B)
     {
         return 0;
     }
-    while (index(L1) != -1)
+    while (indexIt(L1) != -1)
     {
         if (get(L1) != get(L2))
         {
@@ -331,7 +336,7 @@ BigInteger sum(BigInteger A, BigInteger B)
     long length = 0;
     moveBack(L1);
     moveBack(L2);
-    while (index(L1) != -1 || index(L2) != -1)
+    while (indexIt(L1) != -1 || indexIt(L2) != -1)
     {
         long add = get(L1) + get(L2) + carry;
         if (add >= A->base)
@@ -438,7 +443,7 @@ BigInteger diff(BigInteger A, BigInteger B)
     long length = 0;
     moveBack(L1);
     moveBack(L2);
-    while (index(L1) != -1 || index(L2) != -1)
+    while (indexIt(L1) != -1 || indexIt(L2) != -1)
     {
         long add = get(L1) - get(L2) + carry;
         //printf("add: %ld\n", add);
@@ -523,12 +528,12 @@ BigInteger prod(BigInteger A, BigInteger B)
     /*
     Main traversal, over the two lists of numbers, multiplies each long indiviudally and adding it to correct section in the product function
     */
-    while (index(L1) != -1)
+    while (indexIt(L1) != -1)
     {
         moveBack(L2);
         prepend(L, 0);
         moveBack(L);
-        while (index(L2) != -1)
+        while (indexIt(L2) != -1)
         {
             long whole = get(L1) * get(L2);
             long large, small;
@@ -604,12 +609,12 @@ void printBigInteger(FILE *out, BigInteger N)
         fprintf(out, "0\n");
         return;
     }
-    while (index(L) != -1)
+    while (indexIt(L) != -1)
     {
         //In case there are 0's before the digit in case of 508 when it is deliminated into a base 100 system
         int diff = numberofdigits(get(L)) - N->power;
         // printf("diff = %d\n", diff);
-        while (diff < 0 && index(L) != 0)
+        while (diff < 0 && indexIt(L) != 0)
         {
             fprintf(out, "0");
             diff++;
