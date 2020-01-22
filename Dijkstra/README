@@ -2,11 +2,11 @@ README
 Jake Armendariz
 jsarmend
 1650932
-PA4
-BFS and path finder within a graph
+This was a personal project to implement the Dijkstra's algorithm to my already existing list adt.
+Dijktra's algotirithm and path finder within a graph
 
 Overview
-This folder can tak
+Finds the shortest distance between nodes when edges have a weight. See the code for instructions on formatting input file.
 
 FindPath.c
 Takes in two files: input, output
@@ -15,7 +15,7 @@ In the input it will create a graph then print out the distance and paths of mul
 Graph.c
 Contains the Graph ADT
 Allows users to add directed and undirected components
-Use BFS to find distance from any vertex
+Use Dijkstra to find distance from any vertex
 Returns a path using each nodes parent
 
 List.c
