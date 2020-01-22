@@ -2,20 +2,20 @@ README
 Jake Armendariz
 jsarmend
 1650932
-PA4
-BFS and path finder within a graph
+PA5
+DFS and connected components finder
 
 Overview
-This folder can tak
+Run this to find the connecte components of a bi/uni directional grapj
 
-FindPath.c
+FindComponents.c
 Takes in two files: input, output
-In the input it will create a graph then print out the distance and paths of multiple routes to output file
+In the input it will create a graph then print out the connected components in order.
 
 Graph.c
 Contains the Graph ADT
 Allows users to add directed and undirected components
-Use BFS to find distance from any vertex
+Use DFS to find the connected graphs and their parents
 Returns a path using each nodes parent
 
 List.c
