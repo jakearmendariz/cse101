@@ -1,4 +1,4 @@
-# cse101
+# Algorithms and ADT's
 
 This repository consists of 6 seperate projects all using a linked list adt that can store data in unique ways. The first 5 folders consist of projects assigned to me in my cse101 class, the last one, and other's I may add in the future are mine that I created to have a better understanding of computer science algorithms.
 
